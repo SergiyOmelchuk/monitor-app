@@ -29,3 +29,9 @@ dist-ssr
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# Husky
+.husky/_
+!.husky/pre-commit
+!.husky/commit-msg
+!.husky/pre-push
