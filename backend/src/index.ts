@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import {prisma} from "./prisma";
+import {prisma} from "./prisma.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -45,9 +45,17 @@ app.post('/toggle', async (req, res) => {
 
         data: {
             active: !current?.active,
-            name: name
+            name: name + ' updated'
         }
     });
 
     res.json(updated);
+});
+
+process.on("uncaughtException", (err) => {
+    console.error("UNCAUGHT:", err);
+});
+
+process.on("unhandledRejection", (err) => {
+    console.error("UNHANDLED:", err);
 });
