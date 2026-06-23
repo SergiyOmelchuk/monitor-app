@@ -1,0 +1,30 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "🔍 Запуск pre-commit перевірок для Backend..."
+
+# Перевірка типів
+echo "📝 TypeScript type checking..."
+npm run typecheck
+if [ $? -ne 0 ]; then
+  echo "❌ Помилки типізації! Виправте їх перед комітом."
+  exit 1
+fi
+
+# Лінтер
+echo "🧹 Запуск ESLint..."
+npm run lint
+if [ $? -ne 0 ]; then
+  echo "❌ Помилки лінтера! Запустіть 'npm run lint:fix'"
+  exit 1
+fi
+
+# Тести (опційно)
+# echo "🧪 Запуск тестів..."
+# npm test
+# if [ $? -ne 0 ]; then
+#   echo "❌ Тести не пройдено!"
+#   exit 1
+# fi
+
+echo "✅ Всі перевірки пройдено успішно!"

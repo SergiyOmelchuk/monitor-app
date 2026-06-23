@@ -38,14 +38,14 @@ jobs:
         run: npx prisma generate
 
       - name: TypeScript type check
-        run: npm run typecheck
+        run: npm run typecheck:ci
 
       - name: Run linter
         run: npm run lint
         continue-on-error: true
 
       - name: Build
-        run: npm run build
+        run: npm run build:ci
 
       - name: Run tests
         run: npm test

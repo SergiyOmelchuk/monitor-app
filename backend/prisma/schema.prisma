@@ -10,4 +10,5 @@ generator client {
 model ToggleState {
   id     Int     @id
   active Boolean @default(false)
+  name   String?
 }

@@ -3,20 +3,17 @@ import cors from 'cors';
 import {prisma} from "./prisma";
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-app.use(
-    cors({
-        origin: 'http://localhost:5173'
-    })
-);
+app.use(cors());
 app.use(express.json());
 
 app.get('/health', (_, res) => {
     res.json({ ok: true });
 });
 
-app.listen(3000, () => {
-    console.log('Server started');
+app.listen(PORT, () => {
+    console.log(`Server started on ${PORT}`);
 });
 
 app.get('/toggle', async (_, res) => {
@@ -36,7 +33,9 @@ app.get('/toggle', async (_, res) => {
     res.json(state);
 });
 
-app.post('/toggle', async (_, res) => {
+app.post('/toggle', async (req, res) => {
+    const { name } = req.body;
+
     const current = await prisma.toggleState.findUnique({
         where: { id: 1 }
     });
@@ -45,7 +44,8 @@ app.post('/toggle', async (_, res) => {
         where: { id: 1 },
 
         data: {
-            active: !current?.active
+            active: !current?.active,
+            name: name
         }
     });
 
