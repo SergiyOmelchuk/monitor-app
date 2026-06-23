@@ -3,3 +3,9 @@ node_modules
 .env
 
 /src/generated/prisma
+
+# Husky
+.husky/_
+!.husky/pre-commit
+!.husky/commit-msg
+!.husky/pre-push
