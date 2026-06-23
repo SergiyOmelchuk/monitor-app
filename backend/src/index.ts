@@ -45,7 +45,7 @@ app.post('/toggle', async (req, res) => {
 
         data: {
             active: !current?.active,
-            name: name + ' updated'
+            name: name
         }
     });
 
