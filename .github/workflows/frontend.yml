@@ -44,10 +44,10 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Run tests
-        run: npm test
+      - name: Run unit tests
+        run: npm run test:unit:ci
         continue-on-error: true
 
-      - name: Run Playwright tests
-        run: npx playwright test
+      - name: Run e2e Playwright tests
+        run: npm run test:e2e
         continue-on-error: true
