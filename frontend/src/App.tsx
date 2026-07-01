@@ -1,44 +1,34 @@
-import { useEffect, useState } from 'react';
-import { api } from './api';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useAuth } from '@/features/auth';
+import { LoginPage } from '@/pages/LoginPage';
+import { RegisterPage } from '@/pages/RegisterPage';
+import { UserPage } from '@/pages/UserPage';
+
+function RootRedirect() {
+  const { isLoading, isAuthenticated } = useAuth();
+
+  if (isLoading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  return <Navigate to={isAuthenticated ? '/user' : '/login'} replace />;
+}
 
 function App() {
-  const [active, setActive] = useState(false);
-  const [name, setName] = useState(false);
-  const [inputName, setInputName] = useState('');
-
-  async function loadState() {
-    const res = await api.get('/toggle');
-    setActive(res.data.active);
-      setName(res.data.name || '');
-  }
-
-  async function toggle() {
-    const res = await api.post('/toggle', { name: inputName });
-    setActive(res.data.active);
-    setName(res.data.name || '');
-    setInputName('');
-  }
-
-  useEffect(() => {
-    void loadState();
-  }, []);
-
   return (
-      <div>
-        <h1>
-            {`Status of ${name}: `}{active ? 'ON' : 'OFF'}
-        </h1>
-          <input
-              type="text"
-              value={inputName}
-              onChange={(e) => setInputName(e.target.value)}
-              placeholder="Enter name"
-          />
-
-        <button onClick={toggle}>
-            Toggle
-        </button>
-      </div>
+    <Routes>
+      <Route path="/" element={<RootRedirect />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/user" element={<UserPage />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
 
